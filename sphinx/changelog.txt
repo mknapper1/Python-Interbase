@@ -1,0 +1,361 @@
+#########
+Changelog
+#########
+
+* `Version 1.4.9`_ (30.6.2015)
+* `Version 1.4.8`_ (23.6.2015)
+* `Version 1.4.7`_ (4.6.2015)
+* `Version 1.4.6`_ (29.5.2015)
+* `Version 1.4.5`_ (31.3.2015)
+* `Version 1.4.4`_ (27.2.2015)
+* `Version 1.4.3`_ (14.11.2014)
+* `Version 1.4.2`_ (13.11.2014)
+* `Version 1.4.1`_ (25.6.2014)
+* `Version 1.4`_ (24.6.2013)
+* `Version 1.3`_ (7.6.2013)
+* `Version 1.2`_ (31.5.2013)
+* `Version 1.1.1`_ (14.5.2013)
+* `Version 1.1`_ (9.4.2013)
+* `Version 1.0`_ (7.3.2013)
+* `Version 0.9.9`_ (30.11.2012)
+* `Version 0.9.1`_ (8. 9. 2012)
+* `Version 0.9`_ (5. 9. 2012)
+* `Version 0.8.5`_ (28. 6. 2012)
+* `Version 0.8`_ (31. 5. 2012)
+* `Version 0.7.2`_ (27. 3. 2012)
+* `Version 0.7.1`_ (31. 1. 2012)
+* `Version 0.7`_ (21. 12. 2011)
+
+Version 1.4.9
+=============
+
+- (PYFB-51) <procedure>.get_sql_for('<re>create') returns invalid output parameters
+- (PYFB-52) isc_info* types which are _DATABASE_INFO_CODES_WITH_COUNT_RESULTS raises TypeError: 'float' object cannot be interpreted as an integer 
+
+Version 1.4.8
+=============
+
+- Enhancement to automatic client library location detection on POSIX. Now it also looks at LD_LIBRARY_PATH dir if specified.
+
+Version 1.4.7
+=============
+
+- Forgoten debug printout removed. Annoying for Python 2.x users, fatal for 3.x users.
+
+Version 1.4.6
+=============
+
+Bugs Fixed
+----------
+
+- (PYFB-50) Exception ReferenceError: 'weakly-referenced object no longer exists' in PreparedStatement and Cursor
+
+Version 1.4.5
+=============
+
+Bugs Fixed
+----------
+
+- (PYFB-49) Memory and DB resource leak due to circular references.
+
+Version 1.4.4
+=============
+
+Improvements
+------------
+
+- (PYFB-47) Firebird client library path added as optinal parameter to :func:`fdb.connect` and :func:`fdb.create_database`.
+
+Bugs Fixed
+----------
+
+- Additional fix related to PYFB-43
+- Additional correction for unregistered problem with circular ref. between PS and Cursor when explicit PS is executed.
+
+
+Version 1.4.3
+=============
+
+Bugs Fixed
+----------
+
+- Previous fix for PYFB-43 was incomplete, corrected.
+
+
+Version 1.4.2
+=============
+
+Improvements
+------------
+
+- In relation to PYFB-43 I had to make a **backward incompatible change** to event processing API. Starting from this version
+  `EventConduit` does not automatically starts collection of events upon creation, but it's now necessary to call 
+  :meth:`~fdb.EventConduit.begin` method. To mitigate the inconvenience, EventConduit now supports context manager
+  protocol that ensures calls to begin() and close() via `with` statement.
+- In relation to PYFB-39 I have decided to drop support for implicitly cached and reused prepared statements. I never
+  liked this feature as I think it's a sneaky method how to put some performance to badly written applications that 
+  in worst case may lead to significant resource consumption on server side when developers are not only lazy but also stupid.
+  It was implemented for the sake of compatibility with KInterbasDB. 
+
+  **This change has no impact on API, but may affect performance of your applications.**
+
+Bugs Fixed
+----------
+
+- PYFB-44 - Inserting a datetime.date into a TIMESTAMP column does not work
+- PYFB-42 - Python 3.4 and FDB - backup throws an exception
+- Unregistered - Fixes in monitor.TransactionInfo
+
+
+Version 1.4.1
+=============
+
+Improvements
+------------
+
+- PYFB-40 - fbclient.dll is not found if not in path.
+  Aside from registry lookup, client library isn't loaded until first call to :func:`fdb.connect`, :func:`fdb.create_database`
+  or :func:`fdb.load_api` (which now supports optional specification of Firebird Client Library to load). 
+- Adjustments for Firebird 3.0 (Alpha1)
+- Properties :attr:`~fdb.services.Connection.version` and :attr:`~fdb.services.Connection.engine_version` added to :class:`fdb.services.Connection`
+
+Bugs Fixed
+----------
+
+- Unregistered - isolation_level parameter for fdb.connection has no effect.
+- Unregistered - Information gathered from monitoring tables is not properly dropped upon refresh request.
+
+Version 1.4
+===========
+
+New Features
+------------
+
+- :mod:`fdb.schema` submodule extended with support for user privileges.
+
+Improvements
+------------
+
+- :meth:`fdb.services.User.load_information` method to load information about user from server.
+- :mod:`fdb.ibase` content cleanup and additions.
+- :mod:`fdb.blr` submodule with BLR definitions.
+
+Bugs Fixed
+----------
+
+- PYFB-37 - Unicode Strings incorrect not allowed for insertion into BLOB SubType 1.
+
+
+Version 1.3
+===========
+
+New Features
+------------
+
+- :mod:`fdb.monitor` submodule for access to / work with monitoring tables.
+- New :attr:`fdb.Connection.monitor` property for access to monitoring tables.
+
+Improvements
+------------
+
+- :attr:`~fdb.schema.Schema.closed` property and :meth:`~fdb.schema.Schema.clear` method for Schema.
+- Unit tests reworked.
+
+Bugs Fixed
+----------
+
+- Unregistered: Bug in :meth:`fdb.schema.Schema.close` and :meth:`fdb.schema.Schema.bind`.
+
+Version 1.2
+===========
+
+New Features
+------------
+
+- :mod:`fdb.schema` submodule for access to / work with database metadata.
+- :mod:`fdb.utils` submodule with various helper classes and functions.
+- New :attr:`fdb.Connection.schema` property for access to database schema.
+- New :class:`~fdb.ConnectionWithSchema` connection class that provides more direct access 
+  to database schema than `Connection`.
+- New :attr:`fdb.Connection.firebird_version`, :attr:`fdb.Connection.version` and 
+  :attr:`fdb.Connection.engine_version` properties.
+- New `Connection.ods` read only property that returns ODS version number of connected database.
+  There are also new module-level constants `ODS_FB_20`, `ODS_FB_21` and `ODS_FB_25`.
+- New :attr:`fdb.Connection.query_transaction` property. This is ReadOnly ReadCommitted transaction 
+  that could be active indefinitely without blocking garbage collection. It’s used internally to query 
+  metadata, but it’s generally useful.
+
+Improvements
+------------
+
+- Optional PEP 249 (Python DB API 2.0) Extensions
+
+  - `Connection.Error`, `Connection.ProgrammingError`, etc.
+
+    All exception classes defined by the DB API standard are exposed on the Connection objects 
+    as attributes (in addition to being available at module scope).
+  - `Cursor.connection`
+
+    This read-only attribute return a reference to the Connection object on which the cursor was created.
+
+- `Cursor.transaction` read-only attribute returns a reference to the Transaction object on which the cursor 
+  was created.
+- Optimized wekref management, especially for `PreparedStatement`.
+- `create_database` now supports two methods for database screation. You can specify CREATE DATABASE statement
+  (as before) or provide set of named database parameters (SQL statement is created automatically from them).
+- Functions `connection` and `create_database` now take optional keyword parameter `connection_class` to
+  obtain instances of different class instead `Connection`.
+- Support for legacy (pre-2.5) shutdown mode with mode `fdb.services.SHUT_LEGACY`.
+- :meth:`fdb.Cursor.executemany` returns `self`, so it could be used directly as iterator.
+- Documentation inprovements.
+
+Bugs Fixed
+----------
+
+- Unregistered: `buffers` parameter of `fdb.connection` doesn't support values greater than 255.
+- Unregistered: Lowercase character set name passed to `fdb.connect` may result in wrong funcion of automatic
+  data conversions and other failures (exceptions raised).
+
+Version 1.1.1
+=============
+
+Bugs Fixed
+----------
+
+- PYFB-35 - Call to fetch after a sql statement without a result should raise exception
+- PYFB-34 - Server resources not released on PreparedStatement destruction
+
+Version 1.1
+===========
+
+New Features
+------------
+
+- :ref:`Context Manager <transaction-context-manager>` for transactions.
+
+Bugs Fixed
+----------
+
+- PYFB-30 - BLOBs are truncated at first zero byte
+
+Version 1.0
+===========
+
+Improvements
+------------
+
+- Removed dependency on fbclient library to be present at import time (PYFB-24)
+
+Bugs Fixed
+----------
+
+- PYFB-25 - Truncate long text from VARCHAR(5000)
+
+Version 0.9.9
+=============
+
+New Features
+------------
+
+- Firebird ARRAY support.
+
+Other changes
+-------------
+
+- Cursor.execute() returns Self, so it could be used as iterator.
+- Reading output from Services now uses more efficient method to get data
+  from server.
+
+Bugs Fixed
+----------
+
+- Fix: precision_cache in Connection works as intended.
+
+Version 0.9.1
+=============
+
+Just bugfixes to make FDB work on P3K again.
+
+Version 0.9
+===========
+
+New Features
+------------
+
+- Documentation; both in-source (in Sphinx autodoc format) and Sphinx (html)
+- Services API completely reworked
+
+Other changes
+-------------
+
+- Unregistered bugs fixed.
+- Various optimizations and cleanup
+- Object reference graph optimalizations
+- Many new tests in test suite
+
+Version 0.8.5
+=============
+
+New Features
+------------
+
+- Support for Firebird stream BLOBs (see ReleaseNotes for details)
+- Documentation (stub, from KInterbasDB 3.3.0)
+
+Bugs Fixed
+----------
+
+- Fix for PYFB-17 and PYFB-18 (see our JIRA tracker for details)
+- Fixes for automatic unicode conversions + refactoring
+- Some optimizations
+
+
+Version 0.8
+===========
+
+New Features
+------------
+
+- Support for Firebird Event Notifications - `JIRA entry <http://tracker.firebirdsql.org/browse/PYFB-8>`
+
+Bugs Fixes
+----------
+
+- database_info (isc_info_firebird_version) fails opn amd64 linux - `JIRA entry <http://tracker.firebirdsql.org/browse/PYFB-16>`
+- more than 2 consecutive cursor open execute and iter fail - `JIRA entry <http://tracker.firebirdsql.org/browse/PYFB-15>`
+
+
+Version 0.7.2
+=============
+
+New Features
+------------
+
+- Python 3 Support (thanks to Philippe Makowski)
+- Support for Distributed Transactions
+
+And as always, some (unregistered) bugs fixed.
+
+Version 0.7.1
+=============
+
+Bug fixes.
+
+Version 0.7
+===========
+
+Initial release.
+
+Almost feature-complete (ready for 95% of users), but it could be still buggy (it’s beta!), and the 
+code wasn’t optimized for size and speed. In all other ways it’s ready for wide testing.
+
+What’s missing
+--------------
+
+- Distributed transactions
+- ARRAY support
+- EVENTs support
+- Stream BLOBs
+- TRACE service
+- Documentation (but you can use KInterbasDB one as FDB is as close to it as possible).
+- Python 3.x support (haven’t had time to test it, but it shouldn’t be hard to make it work there)
