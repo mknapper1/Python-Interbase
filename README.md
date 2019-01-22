@@ -5,9 +5,8 @@
 [FDB Source](https://github.com/FirebirdSQL/fdb) \* 
 [Say Thanks to FDB](https://saythanks.io/to/pcisar)
 
-Changes implemented are based on the blog post
-[InterBase and Python (Gabe Goldfield - October 2 2015)]
-(https://community.idera.com/developer-tools/b/blog/posts/interbase-and-python)
+Changes implemented are based on this blog post
+[InterBase and Python (Gabe Goldfield - October 2 2015)](https://community.idera.com/developer-tools/b/blog/posts/interbase-and-python)
 
 InterBase Driver for Python is a [Python](http://python.org) library package that implements
 [Python Database API 2.0](http://www.python.org/dev/peps/pep-0249/)-compliant support for
