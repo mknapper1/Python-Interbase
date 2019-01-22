@@ -6,6 +6,7 @@
 [Say Thanks to FDB](https://saythanks.io/to/pcisar)
 
 Changes implemented are based on this blog post
+
 [InterBase and Python (Gabe Goldfield - October 2 2015)](https://community.idera.com/developer-tools/b/blog/posts/interbase-and-python)
 
 InterBase Driver for Python is a [Python](http://python.org) library package that implements
@@ -23,5 +24,6 @@ native (old-style) client API of the database engine. Notably:
     access specifications.
   - Distributed transactions.
 
-Install
+Install (32-bit version of python required)
+
 `pip install git+https://github.com/mknapper1/Python-Interbase`
