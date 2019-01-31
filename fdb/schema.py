@@ -688,8 +688,8 @@ FROM RDB$USER_PRIVILEGES""")
 
         self._ic.execute('select * from RDB$DATABASE')
         row = self._ic.fetchonemap()
-        self.__description = row['RDB$DESCRIPTION']
-        self._default_charset_name = row['RDB$CHARACTER_SET_NAME'].strip()
+        self.__description = row['RDB$DESCRIPTION']        
+        self._default_charset_name = row['RDB$CHARACTER_SET_NAME'].strip() if row['RDB$CHARACTER_SET_NAME'] is not None else None        
         self.__security_class = row['RDB$SECURITY_CLASS']
         if self.__security_class: self.__security_class = self.__security_class.strip()
         self._ic.execute("select RDB$OWNER_NAME from RDB$RELATIONS where RDB$RELATION_NAME = 'RDB$DATABASE'")
